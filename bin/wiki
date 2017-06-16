@@ -1,0 +1,73 @@
+#!/usr/bin/env node
+
+const inquirer = require('inquirer')
+const axios = require('axios')
+
+const questions = [
+  {
+    type: 'input',
+    name: 'article_url',
+    message: '译文链接:',
+  },
+  {
+    type: 'input',
+    name: 'article_title',
+    message: '译文标题:',
+  },
+  {
+    type: 'list',
+    name: 'category',
+    message: '译文分类:',
+    choices: ['Android', 'iOS', '前端', '后端', '设计', '产品'],
+  },
+  {
+    type: 'input',
+    name: 'translation_score',
+    message: '翻译积分:',
+  },
+  {
+    type: 'input',
+    name: 'review_score',
+    message: '校对积分:',
+  },
+  {
+    type: 'input',
+    name: 'translator',
+    message: '译者:',
+  },
+  {
+    type: 'input',
+    name: 'reviewer[0]',
+    message: '校对者 1:',
+  },
+  {
+    type: 'input',
+    name: 'reviewer[1]',
+    message: '校对者 2:',
+  },
+]
+
+inquirer.prompt(questions).then((answers) => {
+  console.log()
+  console.log('----------------')
+  console.log(`译文分类：${answers.category}`)
+  console.log('----------------')
+  console.log(`* [${answers.article_title}](${answers.article_url}?utm_source=gold-miner&utm_medium=readme&utm_campaign=github) ([${answers.translator}](https://github.com/${answers.translator}) 翻译)`)
+  console.log('----------------')
+  console.log('Commit Message: ')
+  console.log(`  git commit -m "添加文章『${answers.article_title}』"`)
+  console.log('----------------')
+  console.log()
+
+  answers.translation_score -= 0
+  answers.review_score -= 0
+  answers.reviewer = answers.reviewer.filter(item => item)
+
+  return axios.post('http://127.0.0.1:3000/wiki', answers)
+}).then((response) => {
+  console.log('Response: ')
+  console.log('  ', response.status, response.statusText)
+  console.log()
+  console.log('译者积分表最新历史记录：')
+  console.log(`https://github.com/xitu/gold-miner/wiki/%E8%AF%91%E8%80%85%E7%A7%AF%E5%88%86%E8%A1%A8/_history`)
+})
