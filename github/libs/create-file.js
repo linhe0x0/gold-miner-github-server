@@ -1,3 +1,4 @@
+const config = require('../../config')
 const logger = require('../../utils/logger').logger('GitHub')
 
 module.exports = function createFile(options) {
@@ -6,10 +7,16 @@ module.exports = function createFile(options) {
   const content = Buffer.from(options.content).toString('base64')
 
   return this.repos.createFile({
-    owner: 'sqrthree',
-    repo: 'testing',
+    owner: config.github.user,
+    repo: config.github.repo,
     path: `TODO/${options.filename}`,
-    message: 'Commit message',
+    message: `Create ${options.filename}`,
     content: content,
+    branch: options.branch,
+  }).then((response) => {
+    const url = response.data.content.html_url
+
+    logger.debug(`创建文件成功，点击预览：${url}`)
+    return url
   })
 }

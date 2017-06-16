@@ -9,7 +9,7 @@ const logger = require('../../utils/logger').logger('wiki')
 
 const dirname = '../../.wiki'
 const filename = '译者积分表.md'
-const wiki = `https://${config.github_token}@github.com/xitu/gold-miner.wiki.git`
+const wiki = `https://${config.github.token}@github.com/xitu/gold-miner.wiki.git`
 
 const parseScoreList = function parseScoreList() {
   const file = path.resolve(__dirname, dirname, filename)

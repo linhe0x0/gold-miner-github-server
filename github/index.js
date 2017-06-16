@@ -14,10 +14,10 @@ let github = new GitHubApi({
 
 github.authenticate({
   type: 'token',
-  token: config.github_token,
+  token: config.github.token,
 })
 
 module.exports = {
-  // createBranch: createBranch.bind(github),
+  createBranch: createBranch.bind(github),
   createFile: createFile.bind(github),
 }

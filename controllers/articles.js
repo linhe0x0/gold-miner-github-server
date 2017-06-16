@@ -4,6 +4,8 @@ const logger = require('../utils/logger').logger()
 exports.create = async function createArticle(ctx) {
   const { article_id: articleId, filename, content } = ctx.request.body
 
+  if (!articleId || !filename || !content) return ctx.throw(400, 'Invalid params')
+
   logger.info(`添加文章 ${filename}`)
 
   try {
