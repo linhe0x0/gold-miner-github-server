@@ -1,7 +1,10 @@
 const router = require('koa-router')()
 
+const hooks = require('./controllers/hooks')
 const articles = require('./controllers/articles')
 const wiki = require('./controllers/wiki')
+
+router.post('/hooks', hooks.handle)
 
 router.post('/articles', articles.create)
 

@@ -17,7 +17,7 @@ app.use(bodyParser())
 // Logger middleware.
 if (config.env === 'production') {
   app.use(koaLog4.koaLogger(access(), { level: 'auto' }))
-} else {
+} else if (config.env !== 'testing') {
   app.use(logger())
 }
 

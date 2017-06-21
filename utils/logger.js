@@ -12,7 +12,11 @@ log4js.configure({
 exports.logger = function log(category = 'debug') {
   const logger = log4js.getLogger(category)
 
-  logger.setLevel(config.debug ? 'TRACE' : 'WARN')
+  if (config.env === 'testing') {
+    logger.setLevel('OFF')
+  } else {
+    logger.setLevel(config.debug ? 'TRACE' : 'WARN')
+  }
 
   return logger
 }

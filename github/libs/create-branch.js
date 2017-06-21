@@ -20,12 +20,8 @@ module.exports = function createBranch (branch) {
       ref: `refs/heads/${branch}`
     })
   }).then(() => {
-    logger.debug('创建分支完成，沉睡 1 秒')
+    logger.debug(`Delete branch ${branch} successfully`)
 
-    return new Promise((resolve) => {
-      return _.delay(() => {
-        resolve(branch)
-      }, 1000)
-    })
+    return Promise.resolve(branch)
   })
 }
