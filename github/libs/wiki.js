@@ -26,7 +26,7 @@ const parseScoreList = function parseScoreList() {
     }
 
     return {
-      username: result[1],
+      username: result[1].toLowerCase(),
       url: result[2],
       totalScore: Number(result[3]),
       score: Number(result[4]),
@@ -64,7 +64,7 @@ const parseScoreList = function parseScoreList() {
       dataTree[username] = { url, totalScore, score, articles: [] }
       whoami = username
     } else {
-      if (!whoami) return 
+      if (!whoami) return
 
       const result = parseCont(data)
 
@@ -95,7 +95,7 @@ const overwriteScoreList = function overwriteScoreList(dataTree) {
 
   const now = date.now(true).toISOString()
 
-  data.push(`> 注：该文档由脚本自动更新，请勿进行手动修改，如有疑问请联系管理员。最近更新时间：${now}`)
+  data.push(`> 注：该文档由脚本自动更新，请勿进行手动修改，如有疑问请联系管理员。最近更新时间：${now} \n`)
 
   Object.keys(dataTree).forEach((username) => {
     const { url, totalScore, score } = dataTree[username]
@@ -147,14 +147,14 @@ exports.addScore = async function addScore(options) {
   const format = []
 
   format.push({
-    username: options.translator,
+    username: options.translator.toLowerCase(),
     score: options.translationScore,
     type: '翻译',
   })
 
   options.reviewer.forEach((item) => {
     format.push({
-      username: item,
+      username: item.toLowerCase(),
       score: options.reviewScore,
       type: '校对',
     })
@@ -185,6 +185,7 @@ exports.addScore = async function addScore(options) {
 
 exports.push = function push(title) {
   const dir = path.resolve(__dirname, dirname)
+
   // if (config.debug) return logger.debug('debug 模式中自动跳过 push 操作')
 
   return git(['add', filename], dir).then(() => {
