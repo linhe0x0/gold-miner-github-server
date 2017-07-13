@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
+const path = require('path')
 const inquirer = require('inquirer')
 const axios = require('axios')
 
@@ -18,7 +20,7 @@ const questions = [
     type: 'list',
     name: 'category',
     message: '译文分类:',
-    choices: ['Android', 'iOS', '前端', '后端', '设计', '产品'],
+    choices: ['Android', 'iOS', '前端', '后端', '设计', '产品', 'AI'],
   },
   {
     type: 'input',
@@ -47,21 +49,32 @@ const questions = [
   },
 ]
 
+const updateWeekly = function updateWeekly(data) {
+  const filename = 'weekly.md'
+
+  fs.appendFile(path.resolve(__dirname, filename), `- ${data}\n`, (err) => {
+    if (err) return console.error(err)
+  })
+}
+
 inquirer.prompt(questions).then((answers) => {
   console.log()
   console.log('----------------')
   console.log(`译文分类：${answers.category}`)
-  console.log('----------------')
+  console.log()
   console.log(`* [${answers.article_title}](${answers.article_url}?utm_source=gold-miner&utm_medium=readme&utm_campaign=github) ([${answers.translator}](https://github.com/${answers.translator}) 翻译)`)
+  console.log()
   console.log('----------------')
   console.log('Commit Message: ')
-  console.log(`  git commit -m "添加文章『${answers.article_title}』"`)
+  console.log(`  git commit -a -m ":rocket: 添加文章『${answers.article_title}』到文章列表"`)
   console.log('----------------')
   console.log()
 
   answers.translation_score -= 0
   answers.review_score -= 0
   answers.reviewer = answers.reviewer.filter(item => item)
+
+  updateWeekly(answers.article_title)
 
   return axios.post('http://127.0.0.1:3000/wiki', answers)
 }).then((response) => {
