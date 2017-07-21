@@ -5,6 +5,7 @@ const createFile = require('./libs/create-file')
 const createPullRequest = require('./libs/create-pull-request')
 const deleteBranch = require('./libs/delete-branch')
 const createIssue = require('./libs/create-issue')
+const createComment = require('./libs/create-comment')
 const config = require('../config')
 
 let github = new GitHubApi({
@@ -26,4 +27,5 @@ module.exports = {
   createPullRequest: createPullRequest.bind(github),
   deleteBranch: deleteBranch.bind(github),
   createIssue: createIssue.bind(github),
+  createComment:  createComment.bind(github),
 }
