@@ -11,7 +11,7 @@ let github = new GitHubApi({
   debug: config.env === 'development' && config.debug,
 
   headers: {
-    "user-agent": "My-Cool-GitHub-App",
+    "user-agent": "gold-miner-web",
   },
 })
 

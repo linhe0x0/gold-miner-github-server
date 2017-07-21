@@ -7,7 +7,10 @@ const queue = kue.createQueue()
 
 exports.start = function start() {
   queue.process('article', (job, done) => {
-    article.addArticleToGitHub(job).then(done).catch((err) => {
+    article.fetchContent(job).then((data) => {
+
+      return article.addArticleToGitHub(data)
+    }).then(done).catch((err) => {
       logger.error(err.message)
       done(err)
     })
