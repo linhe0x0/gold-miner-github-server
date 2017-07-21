@@ -76,6 +76,22 @@ inquirer.prompt(questions).then((answers) => {
 
   updateWeekly(answers.article_title)
 
+  console.log()
+  console.log('weibo:')
+  console.log()
+  console.log(`#掘金翻译计划# 🚀 ${answers.article_title} - 感谢掘金翻译计划译者 ${answers.translator} 的分享 🍺，快去 @稀土掘金 一睹为快吧：${answers.article_url}，想要查看更多优质译文？👉 快来 https://github.com/xitu/gold-miner 看看吧。`)
+  console.log()
+
+  console.log()
+  console.log('zhihu:')
+  console.log()
+  console.log(`
+掘金翻译计划是一个翻译优质互联网技术文章的社区，文章来源为掘金上的英文分享文章。内容覆盖 AI、Android、iOS、React、前端、后端、产品、设计等领域，想要查看更多优质译文请持续关注掘金翻译计划：https://github.com/xitu/gold-miner，官方微博账号：http://weibo.com/juejinfanyi
+
+译文维护地址：，请访问 GitHub 原文以获取更好的阅读体验。
+`)
+  console.log()
+
   return axios.post('http://127.0.0.1:3000/wiki', answers)
 }).then((response) => {
   console.log('Response: ')
