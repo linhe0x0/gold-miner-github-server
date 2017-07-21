@@ -10,7 +10,6 @@
     "start": "node bin/www",
     "dev": "NODE_ENV=development node bin/www",
     "wiki": "node bin/wiki",
-    "docs": "cd docs && gitbook serve",
     "test": "NODE_ENV=testing mocha --recursive"
   },
   "repository": {
