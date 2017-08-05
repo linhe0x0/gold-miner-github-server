@@ -20,7 +20,7 @@ module.exports = function createBranch (branch) {
       ref: `refs/heads/${branch}`
     })
   }).then(() => {
-    logger.debug(`Delete branch ${branch} successfully`)
+    logger.debug(`Create branch ${branch} successfully`)
 
     return Promise.resolve(branch)
   })

@@ -1,4 +1,5 @@
 const kue = require('kue')
+const _ = require('lodash')
 
 const logger = require('../utils/logger').logger('queue')
 const article = require('../jobs/article')
@@ -9,7 +10,7 @@ exports.start = function start() {
   queue.process('article', (job, done) => {
     article.fetchContent(job).then((data) => {
 
-      return article.addArticleToGitHub(data)
+      return article.addArticleToGitHub(_.assign({}, data, job.data))
     }).then(done).catch((err) => {
       logger.error(err.message)
       done(err)

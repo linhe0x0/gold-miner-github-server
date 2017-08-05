@@ -9,7 +9,7 @@ log4js.configure({
   ]
 })
 
-exports.logger = function log(category = 'debug') {
+exports.logger = function log(category = 'default') {
   const logger = log4js.getLogger(category)
 
   if (config.env === 'testing') {

@@ -1,5 +1,5 @@
-const request = require('request')
 const path = require('path')
+const request = require('request')
 
 const config = require('../config')
 const github = require('../github')
@@ -7,13 +7,19 @@ const logger = require('../utils/logger').logger('job/article')
 
 exports.fetchContent = function (job) {
   return new Promise((resolve, reject) => {
-    request.post(config.spider, {
+    request.post(config.spider.url, {
+      headers: {
+        Authorization: config.spider.token,
+      },
       body: job.data,
       json: true,
     }, function (err, response, body) {
       if (err) return reject(err)
 
-      if(response.statusCode >= 400) return reject(new Error(response.statusCode))
+      if (response.statusCode >= 300) {
+        logger.error(`Error: ${response.statusCode}, ${body}`)
+        return reject(new Error(response.statusCode))
+      }
 
       return resolve(body)
     })

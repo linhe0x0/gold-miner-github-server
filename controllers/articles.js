@@ -1,12 +1,12 @@
 const queue = require('../utils/queue')
-const logger = require('../utils/logger').logger()
+const logger = require('../utils/logger').logger('controllers/article')
 
 exports.create = async function createArticle(ctx) {
   const { id, category, url} = ctx.request.body
 
   if (!id || !category || !url) return ctx.throw(400, 'Invalid params')
 
-  logger.info(`添加文章 ${id}`)
+  logger.info(`Receice new task ${id} with url ${url}`)
 
   const pieces = url.endsWith('/') ? url.slice(0, -1).split('/') : url.split('/')
 
