@@ -13,4 +13,8 @@ module.exports = {
     url: '',
     token: '',
   },
+
+  web: {
+    url: '',
+  },
 }
