@@ -30,7 +30,7 @@ exports.postData = function postData(data) {
   return new Promise((resolve, reject) => {
     request.post(config.web.url, {
       body: {
-        id: data.id,
+        rid: data.id,
         poster: data.poster,
         word: data.total_words,
         tduration: data.translation_days,
