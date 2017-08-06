@@ -1,3 +1,4 @@
+const randomize = require('randomatic')
 const queue = require('../utils/queue')
 const logger = require('../utils/logger').logger('controllers/article')
 
@@ -10,7 +11,8 @@ exports.create = async function createArticle(ctx) {
 
   const pieces = url.endsWith('/') ? url.slice(0, -1).split('/') : url.split('/')
 
-  const filename = pieces[pieces.length - 1] + '.md'
+  const hash = randomize('Aa0', 10)
+  const filename = pieces[pieces.length - 1] + '-' + hash + '.md'
 
   try {
     await queue.add({ id, category, url, filename })
