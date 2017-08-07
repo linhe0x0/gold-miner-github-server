@@ -12,7 +12,7 @@ exports.start = function start() {
       const data = _.assign({}, metaData, job.data)
 
       return article.postData(data)
-    )}.then(() => {
+    }).then(() => {
       return article.addArticleToGitHub(data)
     }).then(done).catch((err) => {
       logger.error(`Catched an error when process job "${job.data.filename}", Error message is: ${err.message}`)

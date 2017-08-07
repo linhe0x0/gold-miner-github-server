@@ -39,7 +39,7 @@ exports.postData = function postData(data) {
         rscore: data.review_scores,
       },
       json: true,
-    }, function (err, response, body) => {
+    }, (err, response, body) => {
       if (err) return reject(err)
 
       if (response.statusCode >= 300) {
