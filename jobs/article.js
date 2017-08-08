@@ -31,6 +31,7 @@ exports.postData = function postData(data) {
     request.post(config.web.url, {
       body: {
         rid: data.id,
+        file: data.filename,
         poster: data.poster,
         word: data.total_words,
         tduration: data.translation_days,
