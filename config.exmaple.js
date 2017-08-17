@@ -3,6 +3,8 @@ module.exports = {
   env: process.env.NODE_ENV || 'development',
   // env: process.env.NODE_ENV || 'production',
 
+  port: 9001,
+
   github: {
     user: '',
     repo: '',
