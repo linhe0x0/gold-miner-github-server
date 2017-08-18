@@ -8,8 +8,10 @@ const queue = kue.createQueue()
 
 exports.start = function start() {
   queue.process('article', (job, done) => {
+    const data = {}
+
     article.fetchContent(job).then((metaData) => {
-      const data = _.assign({}, metaData, job.data)
+      _.assign(data, metaData, job.data)
 
       return article.postData(data)
     }).then(() => {
