@@ -17,8 +17,21 @@ exports.fetchContent = function fetchContent(job) {
       if (err) return reject(err)
 
       if (response.statusCode >= 300) {
-        logger.error(`Error: ${response.statusCode}, ${body}`)
-        return reject(new Error(response.statusCode))
+        logger.error(`Error: ${response.statusCode}, ${body.message}`)
+
+        return resolve({
+          'title': '',
+          'author': '',
+          'author_url': '',
+          'content': '',
+          'markdown_content': '文章抓取失败，请进行手动抓取',
+          'poster': '',
+          'total_words': 0,
+          'translation_scores': 0,
+          'translation_days': 0,
+          'review_scores': 0,
+          'review_days': 0,
+        })
       }
 
       return resolve(body)
@@ -63,7 +76,7 @@ exports.addArticleToGitHub = async function (data) {
 
     const url = await github.createFile({
       filename: data.filename,
-      content: data.content,
+      content: data.markdown_content,
       branch,
     })
 
