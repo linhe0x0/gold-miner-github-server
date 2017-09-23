@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+
+const fs = require('fs')
+const path = require('path')
+const inquirer = require('inquirer')
+const axios = require('axios')
+
+const questions = [
+  {
+    type: 'input',
+    name: 'article_url',
+    message: '译文链接:',
+  },
+  {
+    type: 'input',
+    name: 'article_title',
+    message: '译文标题:',
+  },
+  {
+    type: 'list',
+    name: 'category',
+    message: '译文分类:',
+    choices: ['Android', 'iOS', '前端', '后端', '设计', '产品', 'AI'],
+  },
+  {
+    type: 'input',
+    name: 'translation_score',
+    message: '翻译积分:',
+  },
+  {
+    type: 'input',
+    name: 'review_score',
+    message: '校对积分:',
+  },
+  {
+    type: 'input',
+    name: 'translator',
+    message: '译者:',
+  },
+  {
+    type: 'input',
+    name: 'reviewer[0]',
+    message: '校对者 1:',
+  },
+  {
+    type: 'input',
+    name: 'reviewer[1]',
+    message: '校对者 2:',
+  },
+]
+
+const updateWeekly = function updateWeekly(data) {
+  const filename = 'weekly.md'
+
+  fs.appendFile(path.resolve(__dirname, filename), `- ${data}\n`, (err) => {
+    if (err) return console.error(err)
+  })
+}
+
+inquirer.prompt(questions).then((answers) => {
+  console.log()
+  console.log('----------------')
+  console.log(`译文分类：${answers.category}`)
+  console.log()
+  console.log(`* [${answers.article_title}](${answers.article_url}?utm_source=gold-miner&utm_medium=readme&utm_campaign=github) ([${answers.translator}](https://github.com/${answers.translator}) 翻译)`)
+  console.log()
+  console.log('----------------')
+  console.log('Commit Message: ')
+  console.log(`  git commit -a -m ":rocket: 添加文章『${answers.article_title}』到文章列表"`)
+  console.log('----------------')
+  console.log()
+
+  answers.translation_score -= 0
+  answers.review_score -= 0
+  answers.reviewer = answers.reviewer.filter(item => item)
+
+  updateWeekly(answers.article_title)
+
+  console.log()
+  console.log('weibo:')
+  console.log()
+  console.log(`#掘金翻译计划# 🚀 ${answers.article_title} - 感谢掘金翻译计划译者 ${answers.translator} 的分享 🍺，快去 @稀土掘金 一睹为快吧：${answers.article_url}，想要查看更多优质译文？👉 快来 https://github.com/xitu/gold-miner 看看吧。`)
+  console.log()
+
+  console.log()
+  console.log('zhihu:')
+  console.log()
+  console.log(`
+掘金翻译计划是一个翻译优质互联网技术文章的社区，文章来源为掘金上的英文分享文章。内容覆盖 AI、Android、iOS、React、前端、后端、产品、设计等领域，想要查看更多优质译文请持续关注掘金翻译计划：https://github.com/xitu/gold-miner，官方微博账号：http://weibo.com/juejinfanyi
+
+译文维护地址：，请访问 GitHub 原文以获取更好的阅读体验。
+`)
+  console.log()
+
+  return axios.post('http://127.0.0.1:3000/wiki', answers)
+}).then((response) => {
+  console.log('Response: ')
+  console.log('  ', response.status, response.statusText)
+  console.log()
+  console.log('译者积分表最新历史记录：')
+  console.log(`https://github.com/xitu/gold-miner/wiki/%E8%AF%91%E8%80%85%E7%A7%AF%E5%88%86%E8%A1%A8/_history`)
+})
