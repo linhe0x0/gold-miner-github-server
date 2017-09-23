@@ -3,7 +3,7 @@ const queue = require('../utils/queue')
 const logger = require('../utils/logger').logger('controllers/article')
 
 exports.create = async function createArticle(ctx) {
-  const { id, url} = ctx.request.body
+  const { rid: id, url } = ctx.request.body
 
   if (!id || !url) return ctx.throw(400, 'Invalid params')
 
